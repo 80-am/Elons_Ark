@@ -35,16 +35,3 @@ public class ThreadBackground extends Thread {
         }
     }
 }
-
-
-//        while (true) {
-//
-//            try {
-//                synchronized (lock) {
-//                    terminal.clearScreen(); //replace with removeStars
-//                    stars.addStars();
-//                }
-//                Thread.sleep(400);
-//            } catch (InterruptedException e) {
-//            }
-//

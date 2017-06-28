@@ -20,9 +20,12 @@ public class Main {
         //creating lock
         Object lock = new Object();
 
+        ThreadIntroBackground tib = new ThreadIntroBackground(terminal, lock);
+
         //writing StartScreen
         synchronized (lock) {
-            Drawings.drawFromFile(terminal, "Intro.txt", 40, 30);
+            Drawings.drawFromFile(terminal, "Intro.txt", 50, 25);
+            tib.start();
         }
 
         boolean game = false;
@@ -39,12 +42,25 @@ public class Main {
             case Enter:
                 terminal.clearScreen();
                 game = true;
+                tib.stop();
 
                 break;
             default:
                 System.exit(0);
+                tib.stop();
 
         }
+
+
+        //writing text after Start screen
+         {
+
+             Drawings.cleanFromFile(terminal,"CutSceneText1.txt",0, 0);
+             Drawings.drawFromFile(terminal, "CutSceneText1.txt", 0, 0);
+             Thread.sleep(10000); //waiting for music
+             Drawings.cleanFromFile(terminal, "CutSceneText1.txt",0 ,0);
+        }
+
 
         //adding stars and creating thread
         ThreadBackground tb = new ThreadBackground(terminal, lock);
