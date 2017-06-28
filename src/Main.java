@@ -20,10 +20,10 @@ public class Main {
         //creating lock
         Object lock = new Object();
 
-
-        //showing start screen
-        Intro startScreen = new Intro();
-        startScreen.startScreen(terminal);
+        //writing StartScreen
+        synchronized (lock) {
+            Drawings.drawFromFile(terminal, "Intro.txt", 40, 30);
+        }
 
         boolean game = false;
 
@@ -50,14 +50,15 @@ public class Main {
         ThreadBackground tb = new ThreadBackground(terminal, lock);
         tb.start();
 
+        //adding player ship
+        ThreadPlayer tp = new ThreadPlayer(terminal, lock);
+        tp.start();
+
+
+        int xPos = 96;
+        int yPos = 50;
 
         while (game) {
-
-            Player motherShip = new Player(96, 50);
-
-            MyThread player = new MyThread(motherShip);
-            player.start();
-            motherShip.writeShip(terminal);
 
             //wait for a key to be pressed
             Key keyMove;
@@ -69,33 +70,19 @@ public class Main {
 
             switch (keyMove.getKind()) {
                 case ArrowLeft:
-                    motherShip.x = motherShip.x - 1;
+                    Drawings.cleanFromFile(terminal, "Ship.txt", xPos, yPos);
+                    xPos -= 1;
+                    Drawings.drawFromFile(terminal, "Ship.txt",xPos,yPos);
 
                     break;
                 case ArrowRight:
-                    motherShip.x = motherShip.x + 1;
+                    Drawings.cleanFromFile(terminal,"Ship.txt", xPos, yPos);
+                    xPos += 1;
+                    Drawings.drawFromFile(terminal, "Ship.txt",xPos,yPos);
 
                     break;
                 default:
             }
-
-            terminal.clearScreen();
-
-        }
-
-
-//
-//        MyThread startGame = new MyThread(myList, lock);
-//        threadObject.start();
-//
-//        while (true) {
-//            try{
-//                Thread.sleep(10);
-//                synchronized (lock) {
-//                    if (myList.get(0) != myList.get(0)) {
-//                        System.out.println("How the...?");
-//                    }
-//                }
-//            }catch (InterruptedException e){}
         }
     }
+}

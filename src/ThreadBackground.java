@@ -16,24 +16,35 @@ public class ThreadBackground extends Thread {
     @Override
     public void run() {
 
-        Background stars;
-
-        synchronized (lock) {
-
-            stars = new Background(terminal);
-
-        }
-
         while (true) {
 
             try {
                 synchronized (lock) {
-                    terminal.clearScreen();
-                    stars.addStars();
+                    Drawings.drawFromFile(terminal, "Stars1.txt", 0, 0);
+                    Thread.sleep(400);
+                    Drawings.cleanFromFile(terminal, "Stars1.txt", 0, 0);
+                    Drawings.drawFromFile(terminal, "Stars2.txt", 0, 0);
+                    Thread.sleep(400);
+                    Drawings.cleanFromFile(terminal, "Stars2.txt", 0, 0);
+                    Drawings.drawFromFile(terminal, "Stars3.txt", 0, 0);
+                    Thread.sleep(400);
+                    Drawings.cleanFromFile(terminal, "Stars3.txt", 0, 0);
                 }
-                Thread.sleep(400);
-            } catch (InterruptedException e) {
+            } catch (Exception e) {
             }
         }
     }
 }
+
+
+//        while (true) {
+//
+//            try {
+//                synchronized (lock) {
+//                    terminal.clearScreen(); //replace with removeStars
+//                    stars.addStars();
+//                }
+//                Thread.sleep(400);
+//            } catch (InterruptedException e) {
+//            }
+//
