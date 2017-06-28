@@ -3,6 +3,7 @@ import com.googlecode.lanterna.terminal.Terminal;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.Random;
 
 public class ThreadFriends extends Thread {
 
@@ -18,12 +19,16 @@ public class ThreadFriends extends Thread {
 
     }
 
+    Random r = new Random();
+
+    int x = r.nextInt(170)+20;
+
     @Override
     public void run() {
 
         try {
             synchronized (lock) {
-                Drawings.drawFromFile(terminal, "Mice.txt", 0, 0);
+                Drawings.drawFromFile(terminal, "Mice.txt",x, 0);
             }
         } catch (Exception e) {
         }
