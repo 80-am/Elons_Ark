@@ -21,17 +21,9 @@ public class Main {
         Object lock = new Object();
 
 
-        FileReader fR = new FileReader("/home/adam/Documents/Dev/Java/Academy/Elons Ark/Intro.txt");
-
-        BufferedReader bR = new BufferedReader(fR);
-
-        String s = bR.readLine();
-
-        Drawings.drawFromFile(terminal,s );
-//
-//        //showing start screen
-//        Intro startScreen = new Intro();
-//        startScreen.startScreen(terminal);
+        //showing start screen
+        Intro startScreen = new Intro();
+        startScreen.startScreen(terminal);
 
         boolean game = false;
 
