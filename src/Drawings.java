@@ -52,9 +52,7 @@ public class Drawings {
 
     public static void cleanFromFile(Terminal terminal, String textPath, int startX, int startY) throws Exception {
 
-        drawFromFile(terminal, textPath, startX, startY,true);
-
-
+        drawFromFile(terminal, textPath, startX, startY, true);
 
     }
 }

@@ -9,19 +9,17 @@ public class ThreadFriends extends Thread {
 
     private Terminal terminal;
     private Object lock;
-    private int startX;
-    private int startY;
+    private int friendXpos;
+    private int friendYpos;
 
-    public ThreadFriends (Terminal terminal, Object lock) {
+    public ThreadFriends (Terminal terminal, Object lock, int friendXpos, int friendYpos) {
 
         this.terminal = terminal;
         this.lock = lock;
+        this.friendXpos = friendXpos;
+        this.friendYpos = friendYpos;
 
     }
-
-    Random r = new Random();
-
-    int x = r.nextInt(170)+20;
 
     @Override
     public void run() {
@@ -30,11 +28,9 @@ public class ThreadFriends extends Thread {
         try {
             synchronized (lock) {
                 Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
-                Drawings.drawFromFile(terminal, "Mice.txt",x, 1);
+                Drawings.drawFromFile(terminal, "Mice.txt",friendXpos, friendYpos);
             }
         } catch (Exception e) {
         }
-
-
     }
 }

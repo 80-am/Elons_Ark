@@ -2,8 +2,10 @@ import com.googlecode.lanterna.input.Key;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.SwingTerminal;
 
+import java.util.Random;
+
 public class Main {
-    public static void main(String[] args) throws InterruptedException, Exception {
+    public static void main(String[] args) throws Exception {
 
         Terminal terminal = new SwingTerminal(192, 60);
         terminal.enterPrivateMode();
@@ -19,20 +21,6 @@ public class Main {
             Drawings.drawFromFile(terminal, "Intro.txt", 50, 25);
             tib.start();
         }
-
-
-/*
-        // how to add intromusic and get out of loop?
-
-        boolean startScreenSong = true;
-
-        while (startScreenSong) {
-
-
-            Sounds.playSound("startScreen.au");
-            Thread.sleep(3900);
-
-        }*/
 
         boolean game = false;
 
@@ -53,19 +41,15 @@ public class Main {
                 break;
             default:
                 System.exit(0);
-                tib.stop();
-
         }
-
-        //writing text after Start screen
         {
-
             Sounds.playSound("soundto32.au");
 
-            Drawings.cleanFromFile(terminal, "CutSceneText1.txt", 2, 20);
-            Drawings.drawFromFile(terminal, "CutSceneText1.txt", 2, 20);
+            Sounds.playSound("elonSound.au");
+            Drawings.cleanFromFile(terminal, "IntroStartText.txt", 25, 15);
+            Drawings.drawFromFile(terminal, "IntroStartText.txt", 25, 15);
             Thread.sleep(16000); //waiting for music
-            Drawings.cleanFromFile(terminal, "CutSceneText1.txt", 2, 20);
+            Drawings.cleanFromFile(terminal, "IntroStartText.txt", 25, 15);
 
             // mouse total 6800 ms
             Drawings.drawFromFile(terminal, "CutSceneText4.txt", 0, 0);
@@ -126,42 +110,68 @@ public class Main {
             Drawings.cleanFromFile(terminal, "CutSceneText2.txt", 0, 0);
         }
 
+        Random r = new Random();
         int xPos = 96;
         int yPos = 50;
-        int friendXpos = 40;
-        int friendYpos = 0;
+        int friendXpos = r.nextInt(170) + 15;
+        int friendYpos = -1;
 
+        //adding player ship
+        ThreadPlayer tp = new ThreadPlayer(terminal, lock, xPos, yPos);
+        tp.start();
 
+        //adding mouse friends
+        ThreadFriends tf = new ThreadFriends(terminal, lock, friendXpos, friendYpos);
+        tf.start();
 
         //adding stars and creating thread
         ThreadBackground tb = new ThreadBackground(terminal, lock);
         tb.start();
 
-        //adding player ship
-        ThreadPlayer tp = new ThreadPlayer(terminal, lock);
-        tp.start();
-
-        //adding mouse friends
-        ThreadFriends tf = new ThreadFriends(terminal, lock);
-        tf.start();
-
-
         Sounds.playSound("soundfrom32.au");
+
+        boolean mouseAlive = true;
+        int score = 0;
 
         while (game) {
 
-
-            // mouse falling down
-
-            Drawings.cleanFromFile(terminal,"Mice.txt", friendXpos, friendYpos);
-            Drawings.drawFromFile(terminal,"Mice.txt", friendXpos, friendYpos);
-            friendYpos += 1;
-            Drawings.cleanFromFile(terminal,"Mice.txt", friendXpos, friendYpos);
-
+            int counter = 0;
 
             //wait for a key to be pressed
-            Key keyMove;
+            Key keyMove = null;
             do {
+
+                counter++;
+
+                if (counter % 20 == 0) {
+
+                    if (mouseAlive) {
+                        // mouse falling down
+                        Drawings.cleanFromFile(terminal, "Mice.txt", friendXpos, friendYpos);
+                        friendYpos += 1;
+                        Drawings.drawFromFile(terminal, "Mice.txt", friendXpos, friendYpos);
+
+                        if (((friendXpos + 3) >= (xPos + 6) && (friendXpos + 3) <= (xPos + 12)) && (friendYpos > yPos - 4)) {
+
+
+                            Drawings.cleanFromFile(terminal, "Mice.txt", friendXpos, friendYpos);
+                            score += 1;
+                            Sounds.playSound("mouseSound.au");
+                            System.out.println(score);
+                            friendXpos = r.nextInt(170) + 15;
+                            friendYpos = -1;
+
+                        } else if (friendYpos > yPos + 4) {
+
+                            Sounds.playSound("gameOver.au");
+                            terminal.exitPrivateMode();
+                            System.out.println("YOU COLLECTED " + score + " SPACE MICE!");
+                            // Make something to restart game without intro sceen
+                            break;
+
+                        }
+                    }
+                }
                 Thread.sleep(5);
                 keyMove = terminal.readInput();
             }
@@ -170,59 +180,18 @@ public class Main {
             switch (keyMove.getKind()) {
                 case ArrowLeft:
                     Drawings.cleanFromFile(terminal, "Ship.txt", xPos, yPos);
-                    xPos -= 1.8f;
+                    xPos -= 2;
                     Drawings.drawFromFile(terminal, "Ship.txt", xPos, yPos);
 
                     break;
                 case ArrowRight:
                     Drawings.cleanFromFile(terminal, "Ship.txt", xPos, yPos);
-                    xPos += 1.8f;
+                    xPos += 2;
                     Drawings.drawFromFile(terminal, "Ship.txt", xPos, yPos);
 
                     break;
                 default:
             }
-            /* Getting points
-
-            int score = 0;
-            int hitPoints = 3;
-
-            if ((friendXpos == xPos) && (friendYpos ==yPos)) {
-
-                // this create 1 point
-                score += 1;
-
-
-            // doing health stuff and game over
-
-            int hitPoints = 3;
-            int gameBottom = 60;
-
-            if (friendYpos == gameBottom) {
-
-                hitPoints -= 1;
-            }
-
-            if (hitPoints <= 0) {
-
-                game = false;
-
-                Drawings.cleanFromFile(terminal, "Ship.txt", xPos, yPos);
-                Drawings.cleanFromFile(terminal, "Stars1.txt", xPos, yPos);
-                Drawings.cleanFromFile(terminal, "Stars2.txt", xPos, yPos);
-                Drawings.cleanFromFile(terminal, "Stars3.txt", xPos, yPos);
-                Drawings.cleanFromFile(terminal, "Mice.txt", xPos, yPos);
-                xPos -= 1.8f;
-                Drawings.drawFromFile(terminal, "GameOver.txt", xPos, yPos);
-                Thread.sleep(5000);
-                // Make something to restart game without intro sceenes
-
-            }
-            }
-
-             */
-
-
         }
     }
 }

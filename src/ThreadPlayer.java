@@ -11,10 +11,12 @@ public class ThreadPlayer extends Thread {
     private int xPos;
     private int yPos;
 
-    public ThreadPlayer(Terminal terminal, Object lock) {
+    public ThreadPlayer(Terminal terminal, Object lock, int xPos, int yPos) {
 
         this.terminal = terminal;
         this.lock = lock;
+        this.xPos = xPos;
+        this.yPos = yPos;
 
     }
 
