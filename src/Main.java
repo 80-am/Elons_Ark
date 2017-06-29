@@ -20,6 +20,20 @@ public class Main {
             tib.start();
         }
 
+
+/*
+        // how to add intromusic and get out of loop?
+
+        boolean startScreenSong = true;
+
+        while (startScreenSong) {
+
+
+            Sounds.playSound("startScreen.au");
+            Thread.sleep(3900);
+
+        }*/
+
         boolean game = false;
 
         //wait for a key to be pressed
@@ -112,6 +126,13 @@ public class Main {
             Drawings.cleanFromFile(terminal, "CutSceneText2.txt", 0, 0);
         }
 
+        int xPos = 96;
+        int yPos = 50;
+        int friendXpos = 40;
+        int friendYpos = 0;
+
+
+
         //adding stars and creating thread
         ThreadBackground tb = new ThreadBackground(terminal, lock);
         tb.start();
@@ -124,24 +145,19 @@ public class Main {
         ThreadFriends tf = new ThreadFriends(terminal, lock);
         tf.start();
 
-        int xPos = 96;
-        int yPos = 50;
-        int friendXpos = 40;
-        int friendYpos = 0;
-
 
         Sounds.playSound("soundfrom32.au");
 
         while (game) {
 
-            /*
-                    How to get friends to falldown?
 
-                    Drawings.cleanFromFile(terminal,"Mice.txt", friendXpos, friendYpos);
-                    friendYpos -= 1;
-                    Drawings.drawFromFile(terminal,"Mice.txt", friendXpos, friendYpos);
+            // mouse falling down
 
-             */
+            Drawings.cleanFromFile(terminal,"Mice.txt", friendXpos, friendYpos);
+            Drawings.drawFromFile(terminal,"Mice.txt", friendXpos, friendYpos);
+            friendYpos += 1;
+            Drawings.cleanFromFile(terminal,"Mice.txt", friendXpos, friendYpos);
+
 
             //wait for a key to be pressed
             Key keyMove;
@@ -166,6 +182,47 @@ public class Main {
                     break;
                 default:
             }
+            /* Getting points
+
+            int score = 0;
+            int hitPoints = 3;
+
+            if ((friendXpos == xPos) && (friendYpos ==yPos)) {
+
+                // this create 1 point
+                score += 1;
+
+
+            // doing health stuff and game over
+
+            int hitPoints = 3;
+            int gameBottom = 60;
+
+            if (friendYpos == gameBottom) {
+
+                hitPoints -= 1;
+            }
+
+            if (hitPoints <= 0) {
+
+                game = false;
+
+                Drawings.cleanFromFile(terminal, "Ship.txt", xPos, yPos);
+                Drawings.cleanFromFile(terminal, "Stars1.txt", xPos, yPos);
+                Drawings.cleanFromFile(terminal, "Stars2.txt", xPos, yPos);
+                Drawings.cleanFromFile(terminal, "Stars3.txt", xPos, yPos);
+                Drawings.cleanFromFile(terminal, "Mice.txt", xPos, yPos);
+                xPos -= 1.8f;
+                Drawings.drawFromFile(terminal, "GameOver.txt", xPos, yPos);
+                Thread.sleep(5000);
+                // Make something to restart game without intro sceenes
+
+            }
+            }
+
+             */
+
+
         }
     }
 }

@@ -20,14 +20,15 @@ public class ThreadBackground extends Thread {
 
             try {
                 synchronized (lock) {
+                    Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
                     Drawings.drawFromFile(terminal, "Stars1.txt", 0, 0);
-                    Thread.sleep(400);
+                    Thread.sleep(300);
                     Drawings.cleanFromFile(terminal, "Stars1.txt", 0, 0);
                     Drawings.drawFromFile(terminal, "Stars2.txt", 0, 0);
-                    Thread.sleep(400);
+                    Thread.sleep(300);
                     Drawings.cleanFromFile(terminal, "Stars2.txt", 0, 0);
                     Drawings.drawFromFile(terminal, "Stars3.txt", 0, 0);
-                    Thread.sleep(400);
+                    Thread.sleep(300);
                     Drawings.cleanFromFile(terminal, "Stars3.txt", 0, 0);
                 }
             } catch (Exception e) {

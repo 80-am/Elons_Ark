@@ -26,9 +26,11 @@ public class ThreadFriends extends Thread {
     @Override
     public void run() {
 
+
         try {
             synchronized (lock) {
-                Drawings.drawFromFile(terminal, "Mice.txt",x, 0);
+                Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
+                Drawings.drawFromFile(terminal, "Mice.txt",x, 1);
             }
         } catch (Exception e) {
         }

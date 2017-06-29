@@ -21,13 +21,13 @@ public class ThreadIntroBackground extends Thread {
             try {
                 synchronized (lock) {
                     Drawings.drawFromFile(terminal, "IntroStars1.txt", 0, 0);
-                    Thread.sleep(400);
+                    Thread.sleep(300);
                     Drawings.cleanFromFile(terminal, "IntroStars1.txt", 0, 0);
                     Drawings.drawFromFile(terminal, "IntroStars2.txt", 0, 0);
-                    Thread.sleep(400);
+                    Thread.sleep(300);
                     Drawings.cleanFromFile(terminal, "IntroStars2.txt", 0, 0);
                     Drawings.drawFromFile(terminal, "IntroStars3.txt", 0, 0);
-                    Thread.sleep(400);
+                    Thread.sleep(300);
                     Drawings.cleanFromFile(terminal, "IntroStars3.txt", 0, 0);
                 }
             } catch (Exception e) {

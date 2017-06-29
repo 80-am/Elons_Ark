@@ -8,8 +8,8 @@ public class ThreadPlayer extends Thread {
 
     private Terminal terminal;
     private Object lock;
-    private int startX;
-    private int startY;
+    private int xPos;
+    private int yPos;
 
     public ThreadPlayer(Terminal terminal, Object lock) {
 
@@ -23,7 +23,7 @@ public class ThreadPlayer extends Thread {
 
         try {
             synchronized (lock) {
-                Drawings.drawFromFile(terminal, "Ship.txt", 96, 50);
+                Drawings.drawFromFile(terminal, "Ship.txt", xPos, yPos);
             }
         } catch (Exception e) {
         }
