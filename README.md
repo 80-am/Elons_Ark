@@ -25,7 +25,7 @@ This game is open source, so feel free to contribute.
 
 * **sophia** - *Initial work* - [sophiabolsson](https://github.com/sophiabolsson)
 * **joakim** - *Initial work* - [JoakimJohnsson](https://github.com/JoakimJohnsson)
-* **adam** - *Initial work* - [adamberntsson](https://github.com/adamberntsson)
+* **adam** - *Initial work* - [80-am](https://github.com/80-am)
 
 ## License
 
